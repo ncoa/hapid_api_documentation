@@ -7,7 +7,10 @@ Hi! Welcome to the HAPI-D API documentation. This documentation is meant for ext
  3. [Workshops](#workshops)
  
      3.1. [Creating a Workshop](#creating-a-workshop)
- 4. [Appendix](#appendix)
+ 4. [Participants](#participants)
+    
+     4.1 [Creating a Participant](#creating-a-participant)
+ 6. [Appendix](#appendix)
 
 ## Data Model
 Here is a model that provides a high-level overview of objects and their relationships.
@@ -372,6 +375,15 @@ Sample Response:
     "errors": []
 }
 ~~~
+
+## Participants
+### Creating a Participant
+
+#### Step 1
+
+#### Step 2
+
+#### Step N
 
 ## Appendix
 ### Picklist Values
