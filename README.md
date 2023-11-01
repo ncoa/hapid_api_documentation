@@ -377,6 +377,12 @@ Sample Response:
 ~~~
 
 ## Participants
+The Participant record is a record of an individual participant attending the Workshop session(s). As some Grantees record Participant workshop data against the Participant rather than the Workshop - the record will have a field that can optionally be used to store a non-identifiable external Id for the Grantee supplying the data. If they choose they can then match back to the Participant at a later date. Additionally the relation between Participant and Workshop record is managed through the Workshop Participant Object. 
+
+The Participant record can not be deleted (unless a request goes to NCOA). The record can be marked as Active/Inactive. If a Participant or Participant data needs to be deleted, a support ticket should be raised and NCOA will delete as appropriate.
+
+The Participant record will hold static survey data that does not change over time.
+
 ![Screenshot 2022-08-25 222216](https://github.com/djschlicht/hapid_api_documentation/assets/28845647/e2d83e18-231e-4815-a4c0-478d4c1e58e1)
 
 ### Creating a Participant
