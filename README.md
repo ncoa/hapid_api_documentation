@@ -387,6 +387,7 @@ The Participant record will hold static survey data that does not change over ti
 
 ### Creating a Participant
 
+This is how to create a participant object.
 #### Step 1
 
 #### Step 2
