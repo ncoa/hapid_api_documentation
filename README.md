@@ -403,15 +403,10 @@ Replace the NeededId with the External Id of the participant which we need.
 Sample response:  
 
 ~~~
-
 {  
-
   "id": "string",  
-
   "Name": "string",  
-
   "Participant_Name_ID__c": "string" 
-
 }  
 ~~~
   
@@ -426,7 +421,6 @@ If the Participant does not exist in the Hapi database , you will be able to add
 Endpoint:   
 ~~~
  POST https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/epd_Participant__c/Participant_External_ID__c/{ExternalIdValue}
-
 ~~~
 Replace the ExternalIdValue with the External Id of the participant. 
   
@@ -435,30 +429,18 @@ Sample requestbody:
 
 ~~~
 {  
-
   "id": "string",  
-
   "Name": "string",  
-
   "Participant_Name_ID__c": "string"  
-
-}  
-
- 
+}   
 ~~~
 ~~~
 Sample Response:  
-
 { 
-
     "id": "001DG00001d2li0YER", 
-
     "success": true, 
-
     "errors": [] 
-
 } 
-
  ~~~
 
 #### STEP3: Survey Template lookup:  
@@ -476,27 +458,16 @@ The Response gives ID, Survey template Name, Program type, Start Date of the sur
 
 Make a note of Survey template ID to Retrieve the Questions in the next step.  
 ~~~
-
 {  
-
   "id": "string",  
-
   "Name": "string",  
-
   "Template_Name__c": "string",  
-
   "Start_Date__c": "string",  
-
   "End_Date__c": "string",  
-
   "Last_Workshop__c": "string",  
-
   "Program_Type__c": "string",  
-
   "Details__c": "string"  
-
 }  
-
 ~~~  
 
 #### STEP4:  Sections Lookup:  
@@ -504,7 +475,7 @@ Make a note of Survey template ID to Retrieve the Questions in the next step.
 
 Endpoint:  
 ~~~
-https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=SELECT+Section_Name__c +,+id+from+epd_Survey_Section__c+Where+Survey_Template__c+=+'Tempalte Id'  
+GET https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=SELECT+Section_Name__c +,+id+from+epd_Survey_Section__c+Where+Survey_Template__c+=+'Tempalte Id'  
 ~~~
   
 
@@ -519,11 +490,8 @@ Select and make a note of the id for the section names that are needed. These wi
 Sample response:  
 ~~~
 {  
-
-  “Id”: “a0zDM000004O39LYAS”  
-
+  “Id”: “a0zDM000004O39LYAS”  ,
   "Section_Name__c": "Optional Items"  
-
 }  
 ~~~
   
@@ -532,8 +500,7 @@ Sample response:
 
 Endpoint:  
 ~~~
-https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=SELECT+id,+Question__r.API_Name__c,+Question__r.Custom_Label__c,+Question__r.Object_API_Name__c,+Question__r.Name,+Survey_Section__r.Section_Name__c+FROM+epd_Question_to_Survey_Section__c+WHERE+Survey_Template__c+=’TemplateID’ 
-
+GET https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=SELECT+id,+Question__r.API_Name__c,+Question__r.Custom_Label__c,+Question__r.Object_API_Name__c,+Question__r.Name,+Survey_Section__r.Section_Name__c+FROM+epd_Question_to_Survey_Section__c+WHERE+Survey_Template__c+=’TemplateID’ 
  ~~~
  
 
@@ -546,32 +513,20 @@ Select and make a note of the Api Name of the field in which the answer is saved
 
  ~~~
 Response Body:  
-
 {  
-
   “Id”: “string”  
-
   "API_Name__c": "string",  
-
   "Object_API_Name__c": "string",  
-
   "Custom_Label__c": "string", 
-
   “Name”: “string”, 
-
   “Section_Name__c”:”string”, 
-
-“Survey_Template__c”:”string” 
-
+  “Survey_Template__c”:”string” 
 }  
  ~~~
  
  
 
 #### STEP6: Saving the answers 
-
- 
- 
 
 Initial Step to fill the answers  is to differentiate the questions from step8 according to the Object_API_Name__c 
 
@@ -582,14 +537,11 @@ Based on object API name we will have 3 different objects to save the answers as
 #### STEP7: Create or updating a Workshop Participant along with answers. 
 
 
-
 If the Workshop  Participant does not exist in the Hapi database , you will be able to add the same.  
 
   ~~~ 
-
 Endpoint:   
-
-https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/epd_Workshop_Participant__c/Import_ID__c/{WorkshopParticipantId}  
+POST https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/epd_Workshop_Participant__c/Import_ID__c/{WorkshopParticipantId}  
  ~~~
   
 
@@ -622,42 +574,25 @@ Sample requestbody:
 { 
 
   "id": "string", 
-
   "Name": "string", 
-
   "Workshop__c": "string", 
-
   "Participant__c": "string", 
-
   "type_of_program__c": "string", 
-
   "survey_template__c": "string", 
-
-“Api name of Question to fill Answer”: “data type of the answer”, 
-
-“Api name of Question to fill Answer2”: “data type of the answer2”, 
-
-“Api name of Question to fill Answer3”: “data type of the answer3” 
-
-And so on as per the no of answers we have for the questions 
-
+  “Api name of Question to fill Answer”: “data type of the answer”, 
+  “Api name of Question to fill Answer2”: “data type of the answer2”, 
+  “Api name of Question to fill Answer3”: “data type of the answer3” 
+  And so on as per the no of answers we have for the questions 
 } 
-
- 
   ~~~
 
 Sample Response:  
  ~~~
 { 
-
     "id": "001DG00001d2li0YER", 
-
     "success": true, 
-
     "errors": [] 
-
 } 
-
   ~~~
  
 #### STEP8: Saving answers to participant object. 
@@ -683,42 +618,24 @@ Here Api name of question comes from step6 API_Name__c field and “data type of
 
 Sample requestbody:  
  ~~~
-
- 
-
 {  
-
   "id": "string",  
-
   "Name": "string",  
-
   "Participant_Name_ID__c": "string" , 
-
-“Api name of Question to fill Answer”: “data type of the answer”, 
-
-“Api name of Question to fill Answer2”: “data type of the answer2”, 
-
-“Api name of Question to fill Answer3”: “data type of the answer3” 
-
-And so on as per the no of answers we have for the questions 
-
+  “Api name of Question to fill Answer”: “data type of the answer”, 
+  “Api name of Question to fill Answer2”: “data type of the answer2”, 
+  “Api name of Question to fill Answer3”: “data type of the answer3” 
+  And so on as per the no of answers we have for the questions 
 }  
-
- 
   ~~~
 
 Sample Response:  
  ~~~
 { 
-
     "id": "001DG00001d2li0YER", 
-
     "success": true, 
-
     "errors": [] 
-
 } 
-
   ~~~
 
 #### STEP9:  Saving answers to survey answer object. 
@@ -726,7 +643,6 @@ Sample Response:
 
  ~~~
 https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/epd_Survey_Answer__c/Import_ID__c/{externalId}  
-
    ~~~
 
 Replace the ExternalId with the Import_ID__c of the survey answer. 
@@ -736,34 +652,20 @@ Replace the ExternalId with the Import_ID__c of the survey answer.
  
 Here Api name of question comes from step8 API_Name__c field and “data type of the answer” is value of the answer to the question  
  ~~~
- 
 Sample requestbody:  
-
- 
-
 { 
-
 “Api name of Question to fill Answer”: “data type of the answer”, 
-
 “Api name of Question to fill Answer2”: “data type of the answer2”, 
-
 “Api name of Question to fill Answer3”: “data type of the answer3” 
-
 And so on as per the no of answers we have for the questions 
-
 }  
 
  
-**Sample Response:  
-**
+**Sample Response: **
 { 
-
     "id": "001DG00001d2li0YER", 
-
     "success": true, 
-
     "errors": [] 
-
 }
 ~~~
 
@@ -774,7 +676,6 @@ And so on as per the no of answers we have for the questions
  
 ~~~
 https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects//{ObjectAPIName}/describe 
-
  ~~~
  
 
