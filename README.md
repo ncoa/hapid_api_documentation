@@ -386,13 +386,419 @@ The Participant record will hold static survey data that does not change over ti
 ![Screenshot 2022-08-25 222216](https://github.com/djschlicht/hapid_api_documentation/assets/28845647/e2d83e18-231e-4815-a4c0-478d4c1e58e1)
 
 ### Creating a Participant
+![Uploading image.png…]()
+
 
 This is how to create a participant object.
-#### Step 1
 
-#### Step 2
+### STEP1: Participants look up.   
 
-#### Step N
+Endpoint:  
+~~~
+GET https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=select+id+,+Name+,+Participant_Name_ID__c+,+from+epd_Participant__c+where+Participant_External_ID__c='NeededId'__ 
+~~~
+Replace the NeededId with the External Id of the participant which we need. 
+
+  
+
+Sample response:  
+
+~~~
+
+{  
+
+  "id": "string",  
+
+  "Name": "string",  
+
+  "Participant_Name_ID__c": "string" 
+
+}  
+~~~
+  
+### STEP2: Adding a Participant.  
+
+
+
+If the Participant does not exist in the Hapi database , you will be able to add the same.  
+
+  
+
+Endpoint:   
+~~~
+ POST https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/epd_Participant__c/Participant_External_ID__c/{ExternalIdValue}
+
+~~~
+Replace the ExternalIdValue with the External Id of the participant. 
+  
+
+Sample requestbody:  
+
+~~~
+{  
+
+  "id": "string",  
+
+  "Name": "string",  
+
+  "Participant_Name_ID__c": "string"  
+
+}  
+
+ 
+~~~
+~~~
+Sample Response:  
+
+{ 
+
+    "id": "001DG00001d2li0YER", 
+
+    "success": true, 
+
+    "errors": [] 
+
+} 
+
+ ~~~
+
+#### STEP3: Survey Template lookup:  
+
+Endpoint:   
+~~~
+GET https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=select+id,+Name,+End_Date__c,+Program_Type__c,+Start_Date__c,+Template_Name__c+From+epd_Survey_Template__c+where+ID='XXXXXXXXXX'+and+Start_Date__c+<=+2023-09-01+and+(End_Date__c+>=+2023-09-30+OR+ENd_Date__c=null)  
+~~~
+Replace XXXXXXXXXX = Template ID from the selected workshop response.  
+
+
+Select   
+
+The Response gives ID, Survey template Name, Program type, Start Date of the survey template.  
+
+Make a note of Survey template ID to Retrieve the Questions in the next step.  
+~~~
+
+{  
+
+  "id": "string",  
+
+  "Name": "string",  
+
+  "Template_Name__c": "string",  
+
+  "Start_Date__c": "string",  
+
+  "End_Date__c": "string",  
+
+  "Last_Workshop__c": "string",  
+
+  "Program_Type__c": "string",  
+
+  "Details__c": "string"  
+
+}  
+
+~~~  
+
+#### STEP4:  Sections Lookup:  
+
+
+Endpoint:  
+~~~
+https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=SELECT+Section_Name__c +,+id+from+epd_Survey_Section__c+Where+Survey_Template__c+=+'Tempalte Id'  
+~~~
+  
+
+Use the Template Id retrieved from the previous step  
+
+  
+The Response gives ID, Section Names.  
+
+Select and make a note of the id for the section names that are needed. These will be used to retrieve question assignments and questions.  
+
+
+Sample response:  
+~~~
+{  
+
+  “Id”: “a0zDM000004O39LYAS”  
+
+  "Section_Name__c": "Optional Items"  
+
+}  
+~~~
+  
+
+#### STEP5: Questions Lookup:  
+
+Endpoint:  
+~~~
+https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=SELECT+id,+Question__r.API_Name__c,+Question__r.Custom_Label__c,+Question__r.Object_API_Name__c,+Question__r.Name,+Survey_Section__r.Section_Name__c+FROM+epd_Question_to_Survey_Section__c+WHERE+Survey_Template__c+=’TemplateID’ 
+
+ ~~~
+ 
+
+Use the Template Id retrieved from the above step  
+  
+
+The Response gives ID, API name, Object API Name and Label.  
+
+Select and make a note of the Api Name of the field in which the answer is saved for the question, and the Api name of the Object where the field for the answer is located in. These both will help in retrieving the answers for the question for the given workshop participant.   
+
+ ~~~
+Response Body:  
+
+{  
+
+  “Id”: “string”  
+
+  "API_Name__c": "string",  
+
+  "Object_API_Name__c": "string",  
+
+  "Custom_Label__c": "string", 
+
+  “Name”: “string”, 
+
+  “Section_Name__c”:”string”, 
+
+“Survey_Template__c”:”string” 
+
+}  
+ ~~~
+ 
+ 
+
+#### STEP6: Saving the answers 
+
+ 
+ 
+
+Initial Step to fill the answers  is to differentiate the questions from step8 according to the Object_API_Name__c 
+
+Based on object API name we will have 3 different objects to save the answers as per step 7,8,9 
+
+ 
+ 
+#### STEP7: Create or updating a Workshop Participant along with answers. 
+
+
+
+If the Workshop  Participant does not exist in the Hapi database , you will be able to add the same.  
+
+  ~~~ 
+
+Endpoint:   
+
+https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/epd_Workshop_Participant__c/Import_ID__c/{WorkshopParticipantId}  
+ ~~~
+  
+
+Replace the ExternalIdValue with the Import Id of the participant 
+
+ 
+ 
+
+Use the Workshop__c value from the above 
+
+Use the Participant__c from Step1or2 
+
+USe the Survey_Template__c from workshop creation. 
+
+Use the type_of_program__c from workshop creation. 
+
+“Api name of Question to fill Answer”: “data type of the answer” 
+
+ 
+Here Api name of question comes from step8 API_Name__c field “data type of the answer” is value of the answer to the question 
+
+ 
+  
+
+Sample requestbody:  
+
+  
+  
+ ~~~
+{ 
+
+  "id": "string", 
+
+  "Name": "string", 
+
+  "Workshop__c": "string", 
+
+  "Participant__c": "string", 
+
+  "type_of_program__c": "string", 
+
+  "survey_template__c": "string", 
+
+“Api name of Question to fill Answer”: “data type of the answer”, 
+
+“Api name of Question to fill Answer2”: “data type of the answer2”, 
+
+“Api name of Question to fill Answer3”: “data type of the answer3” 
+
+And so on as per the no of answers we have for the questions 
+
+} 
+
+ 
+  ~~~
+
+Sample Response:  
+ ~~~
+{ 
+
+    "id": "001DG00001d2li0YER", 
+
+    "success": true, 
+
+    "errors": [] 
+
+} 
+
+  ~~~
+ 
+#### STEP8: Saving answers to participant object. 
+
+ 
+ 
+ ~~~
+https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/epd_Participant__c/Participant_External_ID__c/{participantId}  
+
+   ~~~
+
+Replace the participantId with the External Id of the participant 
+
+ 
+ 
+
+“Api name of Question to fill Answer”: “data type of the answer” 
+
+ 
+Here Api name of question comes from step6 API_Name__c field and “data type of the answer” is value of the answer to the question 
+
+  
+
+Sample requestbody:  
+ ~~~
+
+ 
+
+{  
+
+  "id": "string",  
+
+  "Name": "string",  
+
+  "Participant_Name_ID__c": "string" , 
+
+“Api name of Question to fill Answer”: “data type of the answer”, 
+
+“Api name of Question to fill Answer2”: “data type of the answer2”, 
+
+“Api name of Question to fill Answer3”: “data type of the answer3” 
+
+And so on as per the no of answers we have for the questions 
+
+}  
+
+ 
+  ~~~
+
+Sample Response:  
+ ~~~
+{ 
+
+    "id": "001DG00001d2li0YER", 
+
+    "success": true, 
+
+    "errors": [] 
+
+} 
+
+  ~~~
+
+#### STEP9:  Saving answers to survey answer object. 
+
+
+ ~~~
+https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/epd_Survey_Answer__c/Import_ID__c/{externalId}  
+
+   ~~~
+
+Replace the ExternalId with the Import_ID__c of the survey answer. 
+
+“Api name of Question to fill Answer”: “data type of the answer” 
+
+ 
+Here Api name of question comes from step8 API_Name__c field and “data type of the answer” is value of the answer to the question  
+ ~~~
+ 
+Sample requestbody:  
+
+ 
+
+{ 
+
+“Api name of Question to fill Answer”: “data type of the answer”, 
+
+“Api name of Question to fill Answer2”: “data type of the answer2”, 
+
+“Api name of Question to fill Answer3”: “data type of the answer3” 
+
+And so on as per the no of answers we have for the questions 
+
+}  
+
+ 
+**Sample Response:  
+**
+{ 
+
+    "id": "001DG00001d2li0YER", 
+
+    "success": true, 
+
+    "errors": [] 
+
+}
+~~~
+
+
+#### STEP10: Get  Picklist values for the fields in the object 
+
+ 
+ 
+~~~
+https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects//{ObjectAPIName}/describe 
+
+ ~~~
+ 
+
+Here Object API name is the variable which describes the custom object one of three below 
+
+ 
+ 
+
+Participant  - epd_Participant__c 
+
+ 
+ 
+
+Survey answer - epd_Survey_Answer__c 
+
+ 
+
+Questions - epd_Question__c 
+
+[Participants fields](https://ncoa.sharepoint.com/:x:/s/Evidence-BasedProgramDatabase/Eeq7daL3_K9NrzUrRtozAsEBWjwauxBhlHVgoZkInfCM-w?e=x8V6LV)
+
+All the fields pertaining to Workshop Participants , Participants and Questions objects can be referenced using the above link.
+
 
 ## Appendix
 ### Picklist Values
@@ -466,5 +872,11 @@ This is how to create a participant object.
 
 `Employee_Type__c` to create a `Facilitator` can be one of the following:
  - Paid Staff Member
+
+ - 
  - Volunteer
  - Other
+
+
+
+
