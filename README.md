@@ -386,7 +386,6 @@ The Participant record will hold static survey data that does not change over ti
 ![Screenshot 2022-08-25 222216](https://github.com/djschlicht/hapid_api_documentation/assets/28845647/e2d83e18-231e-4815-a4c0-478d4c1e58e1)
 
 ### Creating a Participant
-![Uploading image.png…]()
 
 
 This is how to create a participant object.
