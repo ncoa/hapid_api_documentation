@@ -196,7 +196,7 @@ The response gives the Implementation Site Name, ID, City, Street and State. If 
 
 If your Implementation Site is not listed, use the following API endpoint and request body to create one with your information. You can find allowable values for `Site_Type__c` [here](#picklist-values).
 ~~~
-POST https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/epd_Implementation__c
+POST https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/epd_Implementation_Site__c
 ~~~
 ~~~
 {
