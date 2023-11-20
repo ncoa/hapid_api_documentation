@@ -87,7 +87,9 @@ The request should include the following URL parameters:
 -   `redirect_uri`: The same redirect URI used during user authorization.
 -   `code_verifier`: Required only if a code_challenge parameter was specified in the authorization request. Specifies 128 bytes of random data with high entropy to make guessing the code value difficult. Set this parameter to help prevent authorization code interception attacks. The value must be base64url-encoded.
 
-If the request is successful, the response will be a JSON object containing an `access_token` and a `refresh_token`.
+If the request is successful, the response will be a JSON object containing an `access_token` , `refresh_token` and a `id`. An example of the Id response can be seen below.
+![image](https://github.com/djschlicht/hapid_api_documentation/assets/149615413/d3c52a32-6331-4225-8d4d-12e90feff7c4)
+
 
 ### Using the Access Token
 
@@ -136,6 +138,49 @@ If the request is successful, the response will be a JSON object containing an `
 ### Conclusion
 
 Three-legged OAuth provides a secure and user-friendly way for your application to access a user's data on HAPI-D. By following the process outlined in this document, your application can get the necessary permissions to access and manipulate a user's HAPI-D data without ever needing to handle their HAPI-D credentials.
+
+## Preliminary steps to determine the User type
+
+**Step:1**
+**If you logged in as a grantee: ** 
+
+Please follow the below process to identify your user details  
+
+**API endpoint**: 
+
+`https://ncoa1--uat.sandbox.my.site.com/services/data/v59.0/query?q=Select+Id,+Username,+Lastname,+Firstname,+Email,+IsActive,+UserType,+EPD_Account_ID__c,+CompanyName+from+User+where+IsActive=true+and+Id='XXXXXXXXXXXXXX'`
+
+Replace ‘XXXXXXXXXXXXXX' with the ID that was saved with the Access token call (Authorization API) 
+ ![image](https://github.com/djschlicht/hapid_api_documentation/assets/149615413/f6203b1a-8f66-4e86-9f24-472d2ec7c3fc)
+The response gives the ID, username, first and last names, email, and account ID of the user.
+
+**Step:2**
+
+**If you logged in as a vendor or host organization:**
+
+Please follow the below process to identify your user details  
+
+**API endpoint: **
+
+`https://ncoa1--uat.sandbox.my.site.com/services/data/v59.0/query?q=Select+Id,+Username,+Lastname,+Firstname,+Email,+IsActive,+UserType,+EPD_Account_ID__c,+CompanyName+from+User+where+IsActive=true+and+Id='XXXXXXXXXXXXXX'`
+
+Replace ‘XXXXXXXXXXXXXX' with the ID that was saved with the Access token call (Authorization API) 
+![image](https://github.com/djschlicht/hapid_api_documentation/assets/149615413/9fd56c2b-4d05-4631-b9b7-80dc53b006d1)
+The response gives ID, Username, First and Last names, Email and account ID of the User
+
+**Step:3**
+Please follow the below process to identify the Grantee details from the Retrieve a Grantee to Host Organization 
+
+API endpoint: 
+`https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=Select+Name,+Grantee__c,+Grantee_Name__c,+Host_Organization_Name__c,+Logged_in_User_at_Host_Org__c,+New_Account_Data__c,+Site_Type__c+from+epd_Grantee_to_Host_Organization__c+where+	Host_Organization__c=' 'XXXXXXXXXXXXXXX'`
+
+Replace ‘XXXXXXXXXXXXXXX’ with your Host organization ID or Account ID from the above step 2. 
+
+The Response gives Name, Grantee ID , Grantee name, Host organization name and Site type. If the Host organization is listed in the response, please select it and keep the ID ready to create the workshop or else, you can create one using Step 2 [Adding a Host organization](#find-or-create-host-organization-account). 
+
+**Step:4**
+
+If you are the Vendor but also a Grantee with NCOA, please follow the process outlined in Step 1 above.
 
 ## Workshops
 A Workshop is the key object that links Programs, Program Targets, Grantee, Host Organization, Implementation Sites, and Facilitator with Participant pre and post survey data. It will also hold key aggregate information from the Participants related to the Workshop. 
