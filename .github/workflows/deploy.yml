@@ -1,8 +1,17 @@
-- uses: actions/checkout@v3
-- name: Deploy
-  uses: exuanbo/actions-deploy-gist@v1
-  with:
-    token: ${{ secrets.TOKEN }}
-    gist_id: c02bff44abdf6cbd137f9479d0c9bb9f
-    file_path: README.md
-    file_type: text
+on: [push]
+
+jobs:
+  gist-sync:
+    name: gist-sync
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: popsiclestick/gist-sync-action@v1.2.0
+        id: sync
+        with:
+          auth: ${{ secrets.GIST_TOKEN }}
+          gist_url: https://gist.github.com/djschlicht/c02bff44abdf6cbd137f9479d0c9bb9f
+          gist_title: API Documentation
+          gist_description: Documentation for HAPI-D API
+          github_file: README.md
