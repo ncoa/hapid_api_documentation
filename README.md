@@ -817,8 +817,6 @@ All the fields pertaining to Workshop Participants , Participants and Questions 
 
 `Employee_Type__c` to create a `Facilitator` can be one of the following:
  - Paid Staff Member
-
- - 
  - Volunteer
  - Other
 
