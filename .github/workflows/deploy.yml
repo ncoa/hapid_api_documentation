@@ -14,4 +14,4 @@ jobs:
           gist_url: https://gist.github.com/djschlicht/c02bff44abdf6cbd137f9479d0c9bb9f
           gist_title: API Documentation
           gist_description: Documentation for HAPI-D API
-          github_file: README.md
+          github_file: ./README.md
