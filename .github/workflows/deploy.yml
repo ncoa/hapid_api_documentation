@@ -1,0 +1,8 @@
+- uses: actions/checkout@v3
+- name: Deploy
+  uses: exuanbo/actions-deploy-gist@v1
+  with:
+    token: ${{ secrets.TOKEN }}
+    gist_id: c02bff44abdf6cbd137f9479d0c9bb9f
+    file_path: README.md
+    file_type: text
