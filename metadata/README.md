@@ -1,8 +1,27 @@
 # Metadata for HAPI-D's custom sObjects
 
-For information about what the many metadata values represent, please read the docs: [Salesforce Documentation](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_calls_describesobjects_describesobjectresult.htm).
+For information about what the many metadata values and fields represent, please read the docs: [Salesforce Documentation](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_calls_describesobjects_describesobjectresult.htm).
 
-The `.json` files found in `hapid_api_documentation/metadata/json/*` were generated using Salesforce's [describeSObjects()](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_calls_describesobjects.htm) API calls (using [simple-salesforce](https://github.com/simple-salesforce/simple-salesforce) with Python).
+The `.json` files found in `./json/*` were generated using [describeSObjects()](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_calls_describesobjects.htm) API calls (with [simple-salesforce](https://github.com/simple-salesforce/simple-salesforce) in Python).
+
+Example:
+```Python
+import json
+from simple_salesforce import Salesforce
+
+# Login to Salesforce
+sf = Salesforce (
+  username='your-username',
+  password='your-password',
+  security_token='your-token',
+  domain='login'
+)
+
+# describe() objects and write to file
+result = sf.epd_Facilitator__c.describe()
+with open('json/epd_Facilitator__c.json', 'w') as f:
+  f.write(json.dumps(result, indent=2))
+```
 
 ## Contents
 1. [epd_Facilitator__c](json/epd_Facilitator__c.json)
