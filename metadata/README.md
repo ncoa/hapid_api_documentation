@@ -23,7 +23,7 @@ with open('json/epd_Facilitator__c.json', 'w') as f:
   f.write(json.dumps(result, indent=2))
 ```
 
-## Contents
+## Contents of `json/`
 1. [epd_Facilitator__c](json/epd_Facilitator__c.json)
 2. [epd_Funding_Source__c](json/epd_Funding_Source__c.json)
 3. [epd_Grantee_to_Host_Organization__c](json/epd_Grantee_to_Host_Organization__c.json)
