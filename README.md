@@ -203,16 +203,16 @@ In order to create a Workshop, you must first find or create the following.
 
 #### Find or Create Host Organization Account
 Use this API call to query the list of Host Organizations. From there, filter the results based on the Name or Id of your Organization. 
-~~~
+~~~http
 GET https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=select Name,+BillingStateCode,+BillingCity,+Host_Organization__c+from+Account+where+Host_Organization__c+in+('Validated','Unvalidated')
 ~~~
 The response gives the Account Name, Billing state code, City. If the Host organization is listed in the response, please select it and keep the ID ready for to create the workshop or else, you can create one.
 
 If your Organization is not found, you can add it using the following API endpoint and request body with your organization's information. You can find allowable values for `Site_Type__c` [here](#picklist-values).
-~~~
+~~~http
 POST https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/Account
 ~~~
-~~~
+~~~json
 {
   "Name": "Your Account Name",
   "Site_Type__c": "Your Site Type",
@@ -224,7 +224,7 @@ POST https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/Account
 ~~~
 
 If the Host Organization was successfully created, an `Id` will be generated and the response will look similar to this:
-```
+```json
 {
     "id": "001DG00001d2li0YER",
     "success": true,
@@ -234,16 +234,16 @@ If the Host Organization was successfully created, an `Id` will be generated and
 
 #### Find or Create Implementation Site
 Use this API call to query the list of Implementation Sites to find yours:
-~~~
+~~~http
 GET https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=Select+id+,+City__c+,+Street__c+,+state__c+,+Name+FROM+epd_implementation_site__c+WHERE+Id+=+implementationSiteId
 ~~~
 The response gives the Implementation Site Name, ID, City, Street and State. If the implementation site is listed in the response, please select the respective ID for workshop creation or else, you can create one.
 
 If your Implementation Site is not listed, use the following API endpoint and request body to create one with your information. You can find allowable values for `Site_Type__c` [here](#picklist-values).
-~~~
+~~~http
 POST https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/epd_Implementation_Site__c
 ~~~
-~~~
+~~~json
 {
   "Name": "Your Implementation Site Name",
   "Site_Type__c": "Your Site Type",
@@ -254,7 +254,7 @@ POST https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/epd_Imp
 }
 ~~~
 If creating an Implementation Site was successful, an `Id` will be generated and the response will look similar to this:
-~~~
+~~~json
 {
     "id": "a0rDG000005N563TRE",
     "success": true,
@@ -264,14 +264,14 @@ If creating an Implementation Site was successful, an `Id` will be generated and
 
 #### Find Program
 Use the following API call to query the list of Programs to find yours. Use either `Type_of_Program__c='CDSME'` or `Type_of_Program__c='Falls+Prevention'` to filter on the CDSME and Falls Prevention program types respectively.
-~~~
+~~~http
 GET https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=select+Id+,+Name+FROM+epd_NCOA_Program__c+WHERE+Active__c='Active'+and+Type_of_Program__c='Falls+Prevention'
 ~~~
 The response returns the `Id` and `Name` values for all the active programs based on the program filters. You will be able to select one from the list.
 
 #### Find Program Target
 Use the following API call to find your Program Target. Replace `Program__c+=+'XXXXXXXXXX'` with the Program Id from the previous step.
-~~~
+~~~http
 GET https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=select+id,+Funding_Source__c,+Program_Target_Search_TEXT__c,+Funding_Source_Name__C,+Program__c,+Record_Type_Name__c,+Survey_Template__c,+Survey_Template_TEXT__c+from+epd_Program_Target__c+where+Program__c+=+’XXXXXXXXXX’+and+Record_Type_Name__c+in+('Program+Specific','Collective') 
 ~~~
 The Response gives ID, Funding source ID, Funding Source Name, Survey template ID and description details.
@@ -279,14 +279,14 @@ Select and make a note of the appropriate Funding source and Program target and 
 
 #### Find Survey Template
 Use the following API call to find your Survey Template. Replace `ID=’XXXXXXXXXX’` with the Survey Template Id from the previous step.
-~~~
+~~~http
 GET https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=select+id,+Name,+End_Date__c,+Program_Type__c,+Start_Date__c,+Template_Name__c+From+epd_Survey_Template__c+where+ID=’XXXXXXXXXX’+and+End_Date__c+=+null 
 ~~~
 The Response gives the ID, Survey Template Name, Program type, Start Date of the survey template. Make a note of Survey template ID for Workshop creation.
 
 #### Find Facilitators
 In order to find the existing facilitators, Please use the below API : 
-~~~
+~~~http
 GET https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=select+id,+Contact__c,+First_Name__c,+Last_Name__c,+Email__c,+Active__c+FROM+epd_Facilitator__c+where+Active__C='Active'
 ~~~
 The response gives the ID, Contact ID, First and Last name, Email ID . If the Facilitator is listed in the response, please select it or else, you can create a Contact and then a Facilitator as per Step 12.
@@ -319,11 +319,11 @@ Them, [Create a Contact](#create-contact) and [add workshop and contact details 
 
 
 API Call:
-~~~
+~~~http
 POST https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/epd_Workshop__c
 ~~~
 Sample Request Body:
-~~~
+~~~json
 {
     "Host_Organization__c": "0013i000036abWdAAI", 
     "Implementation_Site__c": "a0r3i000003k1HoAAI",
@@ -346,18 +346,18 @@ Sample Request Body:
 #### Updating Worksop to Target Object
 Update workshop details to Workshop to Target object.
 Endpoint:
-~~~
+~~~http
 POST https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/epd_workshop_to_target__c
 ~~~
 Sample Request Body:
-~~~
+~~~json
 {
     "Workshop__c": "a13DG0000089x7kYAA", 
     "Program_Target__c": "a0u3i00000BTUUcAAP"
 }
 ~~~
 Sample Response:
-~~~
+~~~json
 {
     "id": "a12DG00000Ks93FYAR",
     "success": true,
@@ -367,11 +367,11 @@ Sample Response:
 
 #### Create Contact
 Please use the below endpoint and request body to create a new contact.
-~~~
+~~~http
 POST https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/Contact
 ~~~
 Sample Request body:
-~~~
+~~~json
 {
     "Salutation": "Mr.", 
     "FirstName": "Maddy", 
@@ -386,8 +386,9 @@ Sample Request body:
 }
 ~~~
 `Title` can always be defaulted on Facilitator.  `AccountId` is a Host organization account that was selected or created in Step 1 or Step 2. Allowed values for `Salutation` and `Employee Type` are listed in the [Appendix](#appendix).
-~~~
+
 Sample Response: 
+~~~json
 {
     "id": "003DG00003pFR4NHGT",
     "success": true,
@@ -400,11 +401,11 @@ Once after creating a new `Contact`, please proceed with creating a new `Facilit
 #### Create Facilitator
 Once after creating a new Contact, please proceed with creating a new Facilitator. Please use the endpoint below and request body to create a new Facilitator.
 Endpoint : 
-~~~ 
+~~~ http
 POST https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/Contact
 ~~~
 Sample Request body:
-~~~
+~~~json
 {
     "Workshop__c": "a13DG0000089x7kYAA", 
     "Contact__c": "003DG00003pFSJmYAO", 
@@ -413,7 +414,7 @@ Sample Request body:
 }
 ~~~
 Sample Response:
-~~~
+~~~json
 {
     "id": "a0nDG000004E6M9YAK",
     "success": true,
