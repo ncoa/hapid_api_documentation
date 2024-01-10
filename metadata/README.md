@@ -13,6 +13,13 @@ Python Example (using  [simple-salesforce](https://github.com/simple-salesforce/
 ```Python
 from simple_salesforce import Salesforce
 
+sf = Salesforce (
+  username='your-username',
+  password='your-password',
+  security_token='your-token',
+  domain='login'
+)
+
 result = sf.Account.describe()
 ```
 
