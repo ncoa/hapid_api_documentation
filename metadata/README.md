@@ -1,4 +1,4 @@
-# Metadata for HAPI-D's custom sObjects
+# Metadata for HAPID's custom sObjects
 
 It is often useful to look at the fields and other metadata associated with an sObject. To do so, use the sObject Describe API resource. Here is a link to the Salesforce documentation: [Get Field and Other Metadata for an Object](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_describe.htm).
 
