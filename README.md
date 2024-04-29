@@ -1,5 +1,5 @@
-# HAPI-D API Documentation
-Hi! Welcome to the HAPI-D API documentation. This documentation is meant for external developers that will interact with HAPI-D and will provide you with everything you need to know in order to create great applications.
+# HAPID API Documentation
+Hi! Welcome to the HAPID API documentation. This documentation is meant for external developers that will interact with HAPID and will provide you with everything you need to know in order to create great applications.
 
 ## Table of Contents
  1. [The Data Model](#data-model)
