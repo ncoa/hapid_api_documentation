@@ -747,6 +747,11 @@ All the fields pertaining to Workshop Participants , Participants and Questions 
 
 
 ## Appendix
+### Required for API Calls
+|Object| API Name | Label | Field Name |
+|----------:| ----------: | ----------: | ----------:|
+|Workshops |epd_Workshop__c | Evidence-Based Program|NCOA_Program__c |
+
 ### Picklist Values
 `Site_Type__c` can be one of the following:
  - Area Agency on Aging
