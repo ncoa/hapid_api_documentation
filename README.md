@@ -750,41 +750,40 @@ All the fields pertaining to Workshop Participants , Participants and Questions 
 ### Required for API Calls
 |Object| API Name | Label | Field Name |
 |----------:| ----------: | ----------: | ----------:|
-|Workshops |epd_Workshop__c | Evidence-Based Program|NCOA_Program__c |
-|Workshops |epd_Workshop__c | | |
-|Workshops |epd_Workshop__c | | |
-|Workshops |epd_Workshop__c | | |
-|Workshops |epd_Workshop__c | | |
-|Workshops |epd_Workshop__c | | |
-|Workshops |epd_Workshop__c | | |
-|Workshops |epd_Workshop__c | | |
-|Workshops |epd_Workshop__c | | |
-|Workshops |epd_Workshop__c | | |
-|Workshops |epd_Workshop__c | | |
-|Workshops |epd_Workshop__c | | |
-|Workshops |epd_Workshop__c | | |
-|Workshops |epd_Workshop__c | | |
-|Workshops |epd_Workshop__c | | |
-|Workshops |epd_Workshop__c | | |
-|Workshops |epd_Workshop__c | | |
-|Facilitators |epd_Facilitator__c | | |
-|Facilitators |epd_Facilitator__c | | |
-|Facilitators |epd_Facilitator__c | | |
-|Facilitators |epd_Facilitator__c | | |
-|Facilitators |epd_Facilitator__c | | |
-|Facilitators |epd_Facilitator__c | | |
-|Facilitators |epd_Facilitator__c | | |
-|Host Orgs |Account | | |
-|Host Orgs |Account | | |
-|Host Orgs |Account | | |
-|Host Orgs |Account | | |
-|Implementation Sites |epd_Implementation_Site__c | | |
-|Implementation Sites |epd_Implementation_Site__c | | |
-|Implementation Sites |epd_Implementation_Site__c | | |
-|Implementation Sites |epd_Implementation_Site__c | | |
-|Implementation Sites |epd_Implementation_Site__c | | |
-|Implementation Sites |epd_Implementation_Site__c | | |
-|Implementation Sites |epd_Implementation_Site__c | | |
+|Workshops |epd_Workshop__c |Workshop: Workshop Name |Name |
+|Workshops |epd_Workshop__c |Evidence-Based Program |NCOA_Program__c |
+|Workshops |epd_Workshop__c |Fee |Fee__c |
+|Workshops |epd_Workshop__c |Grantee |Grantee__c |
+|Workshops |epd_Workshop__c |Host Organization |Host_Organization__c |
+|Workshops |epd_Workshop__c |Program Delivery |Program_Delivery__c |
+|Workshops |epd_Workshop__c |Program Type |Program_Type__c |
+|Workshops |epd_Workshop__c |Session 0? |Session_0__c |
+|Workshops |epd_Workshop__c |Survey Template |Survey_Template__c |
+|Workshops |epd_Workshop__c |Variable Sessions |Number_of_Variable_Sessions__c |
+|Workshops |epd_Workshop__c |Workshop End Date |Workshop_End_Date__c |
+|Workshops |epd_Workshop__c |Workshop External ID |Workshop_External_ID__c |
+|Workshops |epd_Workshop__c |Workshop Language |Workshop_Language__c |
+|Workshops |epd_Workshop__c |Workshop Language Other |Workshop_Language_Other__c |
+|Workshops |epd_Workshop__c |Workshop Start Date |Workshop_Start_Date__c |
+|Workshops |epd_Workshop__c |Workshop Type Other |Workshop_Type_Other__c |
+|Facilitators |epd_Facilitator__c |Account Name: Account Name |AccountId |
+|Facilitators |epd_Facilitator__c |Workshop Name | |
+|Facilitators |epd_Facilitator__c |Workshop: ID | |
+|Facilitators |epd_Facilitator__c |Contact |Contact__c |
+|Facilitators |epd_Facilitator__c |Employment Type |Employment_Type__c |
+|Facilitators |epd_Facilitator__c |First Name |First_Name__c |
+|Facilitators |epd_Facilitator__c |State |State__c |
+|Host Orgs |Account |Host Organization: Billing City |BillingCity |
+|Host Orgs |Account |Host Organization: Billing State/Province |BillingState |
+|Host Orgs |Account |Host Orgainzation: Billing Zip/Postal Code |BillingPostalCode |
+|Host Orgs |Account |Host Organization: Billing Country |BillingCountry |
+|Implementation Sites |epd_Implementation_Site__c |Implementation Site Name |Name |
+|Implementation Sites |epd_Implementation_Site__c |City |City__c |
+|Implementation Sites |epd_Implementation_Site__c |Site Type |Site_Type__c |
+|Implementation Sites |epd_Implementation_Site__c |Street |Street__c |
+|Implementation Sites |epd_Implementation_Site__c |Zipcode |Zipcode__c |
+|Implementation Sites |epd_Implementation_Site__c |State |State__c |
+|Implementation Sites |epd_Implementation_Site__c |Host Organization: Account Name | |
 
 ### Picklist Values
 `Site_Type__c` can be one of the following:
