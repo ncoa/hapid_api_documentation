@@ -2,15 +2,15 @@
 Hi! Welcome to the HAPID API documentation. This documentation is meant for external developers that will interact with HAPID and will provide you with everything you need to know in order to create great applications.
 
 ## Table of Contents
- 1. [The Data Model](#data-model)
- 2. [Getting Authorized](#authorization)
- 3. [Workshops](#workshops)
- 
-     3.1. [Creating a Workshop](#creating-a-workshop)
- 4. [Participants](#participants)
-    
-     4.1 [Creating a Participant](#creating-a-participant)
- 6. [Appendix](#appendix)
+1.  [The Data Model](#data-model)
+2.  [Getting Authorized](#authorization)
+3.  [Workshops](#workshops)
+    1.  [Creating a Workshop](#creating-a-workshop)
+4.  [Participants](#participants)
+    1.  [Creating a Participant](#creating-a-participant)
+5.  [Release Notes](#release-notes)
+    1.  [2025-04-01](#2025-04-01)
+7.  [Appendix](#appendix)
 
 ## Data Model
 Here is a model that provides a high-level overview of objects and their relationships.
@@ -276,6 +276,16 @@ GET https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=select+id
 ~~~
 The Response gives ID, Funding source ID, Funding Source Name, Survey template ID and description details.
 Select and make a note of the appropriate Funding source and Program target and make a note of the ID, Funding source ID for future steps.
+
+To query all program targets for your organization, you can use a nested query on the `services/data/{api.version}/query?` endpoint based on the funding source object, an example of which is below:
+```SQL
+SELECT Name, Id, ACL_Funding__c,  Start_Date__c, End_Date__c,
+    (SELECT Name, Id, RecordType.Name, Description__c, No_Cost_Extension_Date__c, Is_Evergreen_Target__c, Program__r.Name, Program__r.Type_of_Program__c
+     FROM Program_Targets__r)
+FROM epd_Funding_Source__c
+WHERE Id in (Select Funding_Source__c
+             FROM epd_Program_Target__c)
+```
 
 #### Find Survey Template
 Use the following API call to find your Survey Template. Replace `ID=’XXXXXXXXXX’` with the Survey Template Id from the previous step.
@@ -745,6 +755,86 @@ Questions - epd_Question__c
 
 All the fields pertaining to Workshop Participants , Participants and Questions objects can be referenced using the above link.
 
+## Release Notes
+### 2025-04-01
+#### Utility
+
+-   update \[Set Implementation Site Name for Duplicate Rule]:
+    -   Updated to before trigger on create and update so that we can run duplicate checking and validation on it.
+-   Create Set\_Workshop\_Name flow:
+    -   Created to rename workshop records to {SS}\_{PG}\_{IMPN}\_YYYYMMDD format when created or updated a user outside of the workshop modal.
+-   Create Contact Trigger to handle new contact ownership:
+    -   Ownership of contacts created by a HAPID user will be owned by the system user. Sharing of the Contact is maintained.
+
+#### Validation Rule
+
+-   Required fields on epd\_Workshop\_\_c: Create a validation rule that enforces the fields in the subtasks have data for Hapid Users create/update.
+    -   epd\_Workshop\_\_c.Grantee\_\_c
+    -   epd\_Workshop\_\_c.Host\_Organization\_\_c
+    -   epd\_Workshop\_\_c.Implementation\_Site\_\_c
+    -   epd\_Workshop\_\_c.NCOA\_Program\_\_c
+    -   epd\_Workshop\_\_c.Workshop\_Start\_Date\_\_c
+    -   If Provided, epd\_Workshop\_\_c.Connected\_App\_External\_Id\_\_c must be in the format {epd\_Workshop\_\_c.Grantee\_\_c}{ExternalId}: No additional notes
+-   Required fields on Contact:
+    -   HAPID User cannot insert Faciliator Contact without Contact.Facilitator\_\_c
+    -   HAPID User cannot assign facilitators to other accounts. This may be supported in the future.
+    -   HAPID User cannot insert Faciliator Contact without Contact.AccountId
+-   Required fields on Account:
+    -   Hapid User must provide BillingStreet, BillingStateCode, BillingPostalCode, and BillingCountry when creating or updating an Account.
+    -   Hapid User must set Host\_Organization\_\_c to 'Unvalidated'
+-   Required fields on epd\_Implementation\_Site\_\_c:
+    -   epd\_Implementation\_Site\_\_c.Name
+    -   epd\_Implementation\_Site\_\_c.Street\_\_c
+    -   epd\_Implementation\_Site\_\_c.City\_\_c
+    -   epd\_Implementation\_Site\_\_c.State\_\_c
+    -   epd\_Implementation\_Site\_\_c.Zipcode\_\_c
+    -   epd\_Implementation\_Site\_\_c.Site\_Type\_\_c
+-   Required fields on epd\_Participant\_\_c:
+    -   Grantee\_\_c or Host\_Organization\_\_c must not be null
+    -   If Provided, Connected\_App\_External\_Id\_\_c must be in the format {epd\_Participant\_\_c.Grantee\_\_c|epd\_Participant\_\_c.Host\_Organization\_\_c}{ExternalId}
+-   Required fields on epd\_Workshop\_Participant\_\_c:
+    -   If Provided, Connected\_App\_External\_Id\_\_c must be in the format {Workshop\_\_r.Grantee\_\_c}{ExternalId}
+
+#### New Field
+
+-   Fix typo in field API Name and Label: Field Host\_Oraganization\_\_c (Label: \[Host Oraganization]) is misspelled in Participant, Program Target, and Survey Answer Objects. Corrected spelling. No impact found on Reports, Apex, Aura, LWC code, ok to change API Name.
+-   add epd\_Workshop\_\_c.Connected\_App\_External\_Id\_\_c external unique
+-   add epd\_Workshop\_Participant\_\_c.Connected\_App\_External\_Id\_\_c external unique
+-   add epd\_Participant\_\_c.Connected\_App\_External\_Id\_\_c external unique
+
+#### Field Access Change
+
+-   Removed access to epd\_Participant\_\_c.External\_ID\_\_c for HAPID users.
+-   Removed access to epd\_Participant\_\_c.NCOA\_Participant\_ID\_\_c for HAPID users.
+-   Removed access to epd\_Participant\_\_c.Legacy\_Participant\_ID\_\_c for HAPID users.
+-   Removed access to epd\_Program\_Target\_\_c.Program\_Target\_External\_ID\_\_c for HAPID users.
+-   Removed access to epd\_Survey\_Answer\_\_c.Import\_ID\_\_c for HAPID users.
+-   Removed access to epd\_Workshop\_\_c.ID\_cdsme\_\_c for HAPID users.
+-   Removed access to epd\_Workshop\_\_c.NCOA\_Import\_ID\_\_c for HAPID users.
+-   Removed access to epd\_Workshop\_To\_Target\_\_c.Target\_Selection\_External\_ID\_\_c for HAPID users.
+-   Removed access to epd\_Implementation\_Site\_\_c.IMP\_External\_ID\_\_c for HAPID users.
+-   Removed access to epd\_Implementation\_Site\_\_c.ID\_falls\_\_c for HAPID users.
+-   Removed access to epd\_Implementation\_Site\_\_c.ID\_cdsme\_\_c for HAPID users.
+-   Removed access to epd\_Facilitator\_\_c.Facilitator\_External\_Id\_\_c for HAPID users.
+-   Removed access to Contact.Id\_cdsme\_\_c for HAPID users.
+-   Removed access to Contact.Facilitator\_External\_ID\_\_c for HAPID users.
+-   Removed access to Contact.Id\_falls\_\_c for HAPID users.
+-   Removed access to Contact.HasOptedOutOfEmail for HAPID users. (The correct field to use is Receive\_info\_from\_Resource\_Center\_\_c = false if the facilitator does not want to be contacted by NCOA for HAPID communication.)
+-   Removed access to Account.Host\_External\_Id\_\_c for HAPID users.
+-   Removed access to Account.Id\_cdsme\_\_c for HAPID users.
+-   Removed access to Account.Id\_falls\_\_c for HAPID users.
+-   Removed access to fields not related to HAPID for HAPID users across various objects:
+    -   Audited field Permisssions and clean up field permissions on objects that HAPID User Permission Sets and Profiles do not have access to or are not related to the HAPID application, to simplify the data model exposed to API Users and and reduce exposure risk.
+-   Granted access to Program\_Target\_Search\_Text\_\_c for HAPID users.: End\_Date\_\_c
+
+#### New Duplicate Rule
+
+-   Duplicate Create Block On Implementation\_Site\_\_c with Sharing for Community Users
+-   Duplicate Create Block On Contact with Sharing for Community Users
+-   Duplicate Create Block On Account with Sharing for Community Users
+-   Duplicate Create/Update Alert on epd\_Participant\_\_c.Participant\_External\_ID\_\_c with Sharing for Community Users
+-   Duplicate Create/Update Alert on epd\_Workshop\_Participant\_\_c.Import\_ID\_\_c with Sharing for Community Users
+-   Duplicate Create/Update Alert on epd\_Workshop\_\_c.Workshop\_External\_ID\_\_c with Sharing for Community Users
 
 ## Appendix
 ### Required for API Calls
