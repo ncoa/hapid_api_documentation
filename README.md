@@ -761,7 +761,7 @@ All the fields pertaining to Workshop Participants, Participants and Questions o
 
 -   Developer sandboxes can now be seeded with Grantee data.
     -   We hope that this will provide API developers with a clearer understanding of the data that they will be working with on behalf of their Grantee.
-    -   To have your developer sandbox seeded, please have your Grantee's primary HAPID contact email hapidhelp@ncoa.org requesting that you get access to a copy of their production data.
+    -   To have your developer sandbox seeded, please have your Grantee's primary HAPID contact email hapidhelp@ncoa.org requesting that you get access to a copy of their production data. If your sandbox was created prior to 2025-04-01, this will require a refresh of your sandbox and new client credentials.
 -   update \[Set Implementation Site Name for Duplicate Rule]:
     -   Updated to before trigger on create and update so that we can run duplicate checking and validation on it.
 -   Create Set\_Workshop\_Name flow:
