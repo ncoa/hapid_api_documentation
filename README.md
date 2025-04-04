@@ -753,12 +753,15 @@ Questions - epd_Question__c
 
 [Participants fields](https://ncoa.sharepoint.com/:x:/s/Evidence-BasedProgramDatabase/Eeq7daL3_K9NrzUrRtozAsEBWjwauxBhlHVgoZkInfCM-w?e=x8V6LV)
 
-All the fields pertaining to Workshop Participants , Participants and Questions objects can be referenced using the above link.
+All the fields pertaining to Workshop Participants, Participants and Questions objects can be referenced using the above link.
 
 ## Release Notes
 ### 2025-04-01
 #### Utility
 
+-   Developer sandboxes can now be seeded with Grantee data.
+    -   We hope that this will provide API developers with a clearer understanding of the data that they will be working with on behalf of their Grantee.
+    -   To have your developer sandbox seeded, please have your Grantee's primary HAPID contact email hapidhelp@ncoa.org requesting that you get access to a copy of their production data.
 -   update \[Set Implementation Site Name for Duplicate Rule]:
     -   Updated to before trigger on create and update so that we can run duplicate checking and validation on it.
 -   Create Set\_Workshop\_Name flow:
