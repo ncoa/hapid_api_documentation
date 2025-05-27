@@ -9,7 +9,8 @@ Hi! Welcome to the HAPID API documentation. This documentation is meant for exte
 4.  [Participants](#participants)
     1.  [Creating a Participant](#creating-a-participant)
 5.  [Release Notes](#release-notes)
-    1.  [2025-04-01](#2025-04-01)
+    1.  [2025-05-26](#2025-05-26)
+    2.  [2025-04-01](#2025-04-01)
 7.  [Appendix](#appendix)
 
 ## Data Model
@@ -756,6 +757,29 @@ Questions - epd_Question__c
 All the fields pertaining to Workshop Participants, Participants and Questions objects can be referenced using the above link.
 
 ## Release Notes
+### 2025-05-26
+#### Field Access Change
+
+-   Edit access to Contact.Facilitator\_External\_ID\_\_c for HAPID users.
+  
+#### Merge Contacts
+
+-   Contact.Facilitator\_External\_ID\_\_c not preserved in the case of a merge of duplicate Contacts.Your integration will need to be able to search for and match duplicate contacts based on Name and Email address.
+
+#### New field
+
+-   add epd\_Survey\_Answer\_\_c.Connected\_App\_External\_Id\_\_c external unique
+-   add epd\_Survey\_Answer\_\_c.Answer\_External\_Id\_\_c external unique
+
+#### Validation Rule
+
+-   Required fields on epd\_Survey\_Answer\_\_c:
+    -   If Provided, Connected\_App\_External\_Id\_\_c must be in the format {Workshop\_Participant\_\_r.Workshop\_\_r.Grantee\_\_c}{ExternalId}
+
+#### New Duplicate Rule
+
+-   Duplicate Create/Update Alert on epd\_Survey\_Answer\_\_c.Answer\_External\_Id\_\_c with Sharing for Community Users
+
 ### 2025-04-01
 #### Utility
 
