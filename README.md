@@ -199,13 +199,13 @@ In order to create a Workshop, you must first find or create the following.
  4. If the Implementation Site does not exist, you will be able to add the same. Steps are given: [Adding an Implementation Site](#find-or-create-implementation-site).
  5. Check if the Program already exists in the HAPI database. Steps are given: [Program look up](#find-program)
  6. Retrieve all Funding sources and program targets from the HAPI database and select one from the list. Steps are given: [Program Targets look up](#find-program-target)
- 7. Filter the Survey name based on survey ID that was selected from Step 9. Steps are given: [Survey Template lookup](#find-survey-template)
+ 7. Filter the Survey name based on survey ID that was selected from Steps 5 & 6. Steps are given: [Survey Template lookup](#find-survey-template)
  8. Check if a facilitator already exists in the HAPI database. Steps are given: [Facilitator look up](#find-facilitators). 
 
 #### Find or Create Host Organization Account
 Use this API call to query the list of Host Organizations. From there, filter the results based on the Name or Id of your Organization. 
 ~~~http
-GET https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=select Name,+BillingStateCode,+BillingCity,+Host_Organization__c+from+Account+where+Host_Organization__c+in+('Validated','Unvalidated')
+GET https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=select+Name,+BillingStateCode,+BillingCity,+Host_Organization__c+from+Account+where+Host_Organization__c+in+('Validated','Unvalidated')
 ~~~
 The response gives the Account Name, Billing state code, City. If the Host organization is listed in the response, please select it and keep the ID ready for to create the workshop or else, you can create one.
 
@@ -220,7 +220,8 @@ POST https://ncoa1--uat.sandbox.my.site.com/services/data/v54.0/sobjects/Account
   "BillingCity": "Your City",
   "BillingStreet": "Your Street Address",
   "BillingState": "Your State",
-  "BillingPostalCode": "Your Postal Code"
+  "BillingPostalCode": "Your Postal Code",
+  "Host_Organization__c": "Unvalidated"
 }
 ~~~
 
