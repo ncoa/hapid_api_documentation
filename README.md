@@ -292,7 +292,7 @@ WHERE Id in (Select Funding_Source__c
 #### Find Survey Template
 The correct survey template to assign to a workshop can be found via the Program Target you are selecting for the workshop in `epd_Program_Target__c.Survey_Template__c`, or in the absence of a Survey Template designation on the Program Target, use the current default survey template assigned to the Program. This can be found in the survey selection object, using a SOQL query on the `services/data/{api.version}/query?` endpoint such as:
 ```SQL
-Select Id, Active__c, Start_Date__c, End_Date__c
+Select Id, Survey_Name__c, Active__c, Start_Date__c, End_Date__c
 FROM epd_Program_to_Survey__c 
 WHERE Start_Date__c <= {{YYYY-MM-DD}}
   AND NCOA_Program__c = {{epd_NCOA_Program__c.Id}}
