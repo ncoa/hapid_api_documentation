@@ -4,11 +4,12 @@ Hi! Welcome to the HAPID API documentation. This documentation is meant for exte
 ## Table of Contents
 1.  [The Data Model](#data-model)
 2.  [Getting Authorized](#authorization)
-3.  [Workshops](#workshops)
+3.  [Preliminary Steps](#preliminary-steps-to-determine-the-users-account-and-users-account-type)
+4.  [Workshops](#workshops)
     1.  [Creating a Workshop](#creating-a-workshop)
-4.  [Participants](#participants)
+5.  [Participants](#participants)
     1.  [Creating a Participant](#creating-a-participant)
-5.  [Release Notes](#release-notes)
+6.  [Release Notes](#release-notes)
     1.  [2025-05-26](#2025-05-26)
     2.  [2025-04-01](#2025-04-01)
 7.  [Appendix](#appendix)
@@ -140,7 +141,7 @@ If the request is successful, the response will be a JSON object containing an `
 
 Three-legged OAuth provides a secure and user-friendly way for your application to access a user's data on HAPI-D. By following the process outlined in this document, your application can get the necessary permissions to access and manipulate a user's HAPI-D data without ever needing to handle their HAPI-D credentials.
 
-## Preliminary steps to determine the User's Account and User's Account Type
+## Preliminary Steps to Determine the User's Account and User's Account Type
 
 It is important for your application to understand the Account that the user is associated with in HAPID, especially if your application will be handling an integration for multiple grantees and host organizations. To achieve this, you will need to use the userinfo endpoint to obtain the user's `user_id` and then query the User object to determine the user's Account and the role of the user's Account.
 
