@@ -140,48 +140,58 @@ If the request is successful, the response will be a JSON object containing an `
 
 Three-legged OAuth provides a secure and user-friendly way for your application to access a user's data on HAPI-D. By following the process outlined in this document, your application can get the necessary permissions to access and manipulate a user's HAPI-D data without ever needing to handle their HAPI-D credentials.
 
-## Preliminary steps to determine the User type
+## Preliminary steps to determine the User's Account and User's Account Type
 
-**Step:1**
-**If you logged in as a grantee: ** 
+It is important for your application to understand the Account that the user is associated with in HAPID, especially if your application will be handling an integration for multiple grantees and host organizations. To achieve this, you will need to use the userinfo endpoint to obtain the user's `user_id` and then query the User object to determine the user's Account and the role of the user's Account.
 
-Please follow the below process to identify your user details  
+```http
+GET https://ncoa1--UAT.sandbox.my.site.com/services/oauth2/userinfo
+```
 
-**API endpoint**: 
+RESPONSE EXAMPLE
+```json
+{
+    ...
+    "user_id": "005VC00000HH0UtYAL",
+    "organization_id": "00DVC000004o0aP2AQ",
+    "preferred_username": "useremail@example.com",
+    "nickname": "nickname",
+    "name": "NCOA TestUser",
+    "email": "useremail@example.com",
+    ...
+}
+```
 
-`https://ncoa1--uat.sandbox.my.site.com/services/data/v59.0/query?q=Select+Id,+Username,+Lastname,+Firstname,+Email,+IsActive,+UserType,+EPD_Account_ID__c,+CompanyName+from+User+where+IsActive=true+and+Id='XXXXXXXXXXXXXX'`
-
-Replace ‘XXXXXXXXXXXXXX' with the ID that was saved with the Access token call (Authorization API) 
- ![image](https://github.com/djschlicht/hapid_api_documentation/assets/149615413/f6203b1a-8f66-4e86-9f24-472d2ec7c3fc)
-The response gives the ID, username, first and last names, email, and account ID of the user.
-
-**Step:2**
-
-**If you logged in as a vendor or host organization:**
-
-Please follow the below process to identify your user details  
-
-**API endpoint: **
-
-`https://ncoa1--uat.sandbox.my.site.com/services/data/v59.0/query?q=Select+Id,+Username,+Lastname,+Firstname,+Email,+IsActive,+UserType,+EPD_Account_ID__c,+CompanyName+from+User+where+IsActive=true+and+Id='XXXXXXXXXXXXXX'`
-
-Replace ‘XXXXXXXXXXXXXX' with the ID that was saved with the Access token call (Authorization API) 
-![image](https://github.com/djschlicht/hapid_api_documentation/assets/149615413/9fd56c2b-4d05-4631-b9b7-80dc53b006d1)
-The response gives ID, Username, First and Last names, Email and account ID of the User
-
-**Step:3**
-Please follow the below process to identify the Grantee details from the Retrieve a Grantee to Host Organization 
-
-API endpoint: 
-`https://ncoa1--uat.sandbox.my.site.com/services/data/v48.0/query?q=Select+Name,+Grantee__c,+Grantee_Name__c,+Host_Organization_Name__c,+Logged_in_User_at_Host_Org__c,+New_Account_Data__c,+Site_Type__c+from+epd_Grantee_to_Host_Organization__c+where+	Host_Organization__c=' 'XXXXXXXXXXXXXXX'`
-
-Replace ‘XXXXXXXXXXXXXXX’ with your Host organization ID or Account ID from the above step 2. 
-
-The Response gives Name, Grantee ID , Grantee name, Host organization name and Site type. If the Host organization is listed in the response, please select it and keep the ID ready to create the workshop or else, you can create one using Step 2 [Adding a Host organization](#find-or-create-host-organization-account). 
-
-**Step:4**
-
-If you are the Vendor but also a Grantee with NCOA, please follow the process outlined in Step 1 above.
+```http
+GET https://ncoa1--UAT.sandbox.my.site.com/services/data/v63.0/query?q=select%20AccountId,%20Account.Grantee__c,%20Account.Host_Organization__c%20from%20User%20where%20id%20=%20%27{{user_id}}%27
+```
+RESPONSE EXAMPLE
+```json
+{
+    "totalSize": 1,
+    "done": true,
+    "records": [
+        {
+            "attributes": {
+                "type": "User",
+                "url": "/services/data/v63.0/sobjects/User/005VC00000HH0UtYAL"
+            },
+            "AccountId": "0013i000036aayPAAQ",
+            "Account": {
+                "attributes": {
+                    "type": "Account",
+                    "url": "/services/data/v63.0/sobjects/Account/0013i000036aayPAAQ"
+                },
+                "Grantee__c": true,
+                "Host_Organization__c": "Validated"
+            }
+        }
+    ]
+}
+```
+*  If `Grantee__c` is `true`, you should use the `AccountId` as the Grantee for workshops.
+*  If `Host_Organization` is `Validated` or `Unvalidated`, you should use the `AccountId` as the Host Organization for workshops.
+*  If both `Grantee_c` is `true` and `Host_Organization` is `Validated` or `Unvalidated`, your application must determine what role the user's `Account` is playing in the facilitation of a workshop and assign the appropriate role as either the Grantee, Host Organization, or both.
 
 ## Workshops
 A Workshop is the key object that links Programs, Program Targets, Grantee, Host Organization, Implementation Sites, and Facilitator with Participant pre and post survey data. It will also hold key aggregate information from the Participants related to the Workshop. 
