@@ -17,7 +17,7 @@ Hi! Welcome to the HAPID API documentation. This documentation is meant for exte
 ## Data Model
 Here is a model that provides a high-level overview of objects and their relationships.
 
-![Approved Data Model - DM v 3 Hierachy Model](https://user-images.githubusercontent.com/28845647/271027483-f1433bc9-b910-45e2-8a95-36b3b0489a92.png)
+![0 - NCOA Data Insights Architecture - Hi Level Logical Data Stores](https://github.com/user-attachments/assets/abd37f69-64a4-4e9a-ba61-9e7553bfa61f)
 
 
 ## Authorization
@@ -90,7 +90,7 @@ The request should include the following URL parameters:
 -   `code_verifier`: Required only if a code_challenge parameter was specified in the authorization request. Specifies 128 bytes of random data with high entropy to make guessing the code value difficult. Set this parameter to help prevent authorization code interception attacks. The value must be base64url-encoded.
 
 If the request is successful, the response will be a JSON object containing an `access_token` , `refresh_token` and a `id`. An example of the Id response can be seen below.
-![image](https://github.com/djschlicht/hapid_api_documentation/assets/149615413/d3c52a32-6331-4225-8d4d-12e90feff7c4)
+![1- 284317739-d3c52a32-6331-4225-8d4d-12e90feff7c4](https://github.com/user-attachments/assets/f958ee07-d2da-4118-acc8-90fbb0e8a85c)
 
 
 ### Using the Access Token
@@ -197,7 +197,7 @@ RESPONSE EXAMPLE
 ## Workshops
 A Workshop is the key object that links Programs, Program Targets, Grantee, Host Organization, Implementation Sites, and Facilitator with Participant pre and post survey data. It will also hold key aggregate information from the Participants related to the Workshop. 
 
-![Screenshot 2022-08-25 222133](https://user-images.githubusercontent.com/28845647/271027226-42c184a4-517c-479b-bb81-18f4a8124eeb.png)
+![2 - 271027226-42c184a4-517c-479b-bb81-18f4a8124eeb](https://github.com/user-attachments/assets/31b94417-a6e6-4823-a938-2d6f1fe54623)
 
 ### Creating a Workshop
 This is a step-by-step guide to creating a new Workshop.
@@ -462,7 +462,7 @@ The Participant record can not be deleted (unless a request goes to NCOA). The r
 
 The Participant record will hold static survey data that does not change over time.
 
-![Screenshot 2022-08-25 222216](https://github.com/djschlicht/hapid_api_documentation/assets/28845647/e2d83e18-231e-4815-a4c0-478d4c1e58e1)
+![3 - 279805438-e2d83e18-231e-4815-a4c0-478d4c1e58e1](https://github.com/user-attachments/assets/e405ed54-6b9f-4d7b-b9ab-c9f8fae20654)
 
 ### Creating a Participant
 
