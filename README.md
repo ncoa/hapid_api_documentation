@@ -90,6 +90,7 @@ The request should include the following URL parameters:
 -   `code_verifier`: Required only if a code_challenge parameter was specified in the authorization request. Specifies 128 bytes of random data with high entropy to make guessing the code value difficult. Set this parameter to help prevent authorization code interception attacks. The value must be base64url-encoded.
 
 If the request is successful, the response will be a JSON object containing an `access_token` , `refresh_token` and a `id`. An example of the Id response can be seen below.
+
 ![1- 284317739-d3c52a32-6331-4225-8d4d-12e90feff7c4](https://github.com/user-attachments/assets/f958ee07-d2da-4118-acc8-90fbb0e8a85c)
 
 
